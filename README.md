@@ -61,13 +61,13 @@
 
 
 ### 环境
- - PHP >= 7.1.0
- - Laravel 5.5.0 ~ 9.*
+ - PHP >= 8.0.0
+ - Laravel 9.*,10.*,
  - Fileinfo PHP Extension
 
 ### 安装
 
-首先需要安装`laravel`框架，如已安装可以跳过此步骤。如果您是第一次使用`laravel`，请务必先阅读文档 [安装 《Laravel中文文档》](https://learnku.com/docs/laravel/8.x/installation/9354) ！
+首先需要安装`laravel`框架，如已安装可以跳过此步骤。如果您是第一次使用`laravel`，请务必先阅读文档 [安装 《Laravel中文文档》](https://learnku.com/docs/laravel/9.x/installation/12200) ！
 ```bash
 composer create-project --prefer-dist laravel/laravel 项目名称 9.*
 # 或
