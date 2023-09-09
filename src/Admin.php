@@ -31,7 +31,6 @@ class Admin
     use HasAssets;
     use HasHtml;
 
-    const VERSION = '2.2.2-beta';
 
     const SECTION = [
         // 往 <head> 标签内输入内容
@@ -72,7 +71,7 @@ class Admin
      */
     public static function longVersion()
     {
-        return sprintf('Dcat Admin <comment>version</comment> <info>%s</info>', static::VERSION);
+        return sprintf('Dcat Admin <comment>version</comment> <info>%s</info>', static::getVersion());
     }
 
     /**
@@ -657,4 +656,9 @@ class Admin
             $router->get('helpers/icons', 'Dcat\Admin\Http\Controllers\IconController@index');
         });
     }
+
+    static public function getVersion(){
+        return Composer::getVersion('dcat/laravel-admin');
+    }
+
 }

@@ -26,7 +26,7 @@
                 Powered by
                 <a target="_blank" href="https://github.com/jqhph/dcat-admin">Dcat Admin</a>
                 <span>&nbsp;·&nbsp;</span>
-                v{{ Dcat\Admin\Admin::VERSION }}
+                v{{ Dcat\Admin\Admin::getVersion() }}
             </span>
 
         <button class="btn btn-primary btn-icon scroll-top pull-right" style="position: fixed;bottom: 2%; right: 10px;display: none">

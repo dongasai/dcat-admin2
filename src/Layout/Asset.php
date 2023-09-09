@@ -685,7 +685,7 @@ class Asset
             $url .= '?';
         }
 
-        $ver = 'v'.Admin::VERSION;
+        $ver = 'v'.Admin::getVersion();
 
         return Str::endsWith($url, '?') ? $url.$ver : $url.'&'.$ver;
     }
