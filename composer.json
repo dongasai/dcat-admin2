@@ -24,7 +24,7 @@
     ],
     "require": {
         "php": ">=8.0.0",
-        "laravel/framework": "~10.0",
+        "laravel/framework": "~11.0",
         "spatie/eloquent-sortable": "3.*|4.*",
         "doctrine/dbal": "^2.6|^3.0|^4.0"
     },
