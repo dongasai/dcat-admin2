@@ -1,5 +1,5 @@
 {
-    "name": "dcat/laravel-admin2",
+    "name": "dongasai/laravel-admin2",
     "description": "dcat admin v2 ",
     "type": "library",
     "keywords": [
@@ -10,7 +10,7 @@
         "form",
         "laravel admin"
     ],
-    "homepage": "https://github.com/jqhph/dcat-admin",
+    "homepage": "https://github.com/dongasai/dcat-admin2",
     "license": "MIT",
     "authors": [
         {
