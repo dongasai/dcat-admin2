@@ -107,7 +107,6 @@ class AdminServiceProvider extends ServiceProvider
     {
         $this->registerDefaultSections();
         $this->registerViews();
-        $this->registerTranslations();
         $this->ensureHttps();
         $this->bootApplication();
         $this->registerPublishing();
@@ -128,19 +127,8 @@ class AdminServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'admin');
     }
 
-     protected function registerTranslations()
-    {
-        // For Laravel 11 compatibility, we need to merge translations into the main lang directory
-        // instead of using a namespace, so that __('admin.key') works without admin:: prefix
-        $langPath = $this->app->langPath();
-        $adminLangPath = __DIR__.'/../resources/lang';
 
-        // Check if admin translations are already published
-        if (!file_exists($langPath.'/zh_CN/admin.php') && file_exists($adminLangPath)) {
-            // Load translations from vendor directory without namespace
-            $this->loadTranslationsFrom($adminLangPath);
-        }
-    }
+    
 
 
     /**
