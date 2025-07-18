@@ -19,6 +19,7 @@ use Dcat\Admin\Support\Translator;
 use Dcat\Admin\Support\WebUploader;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AdminServiceProvider extends ServiceProvider
@@ -106,6 +107,7 @@ class AdminServiceProvider extends ServiceProvider
     {
         $this->registerDefaultSections();
         $this->registerViews();
+        $this->registerTranslations();
         $this->ensureHttps();
         $this->bootApplication();
         $this->registerPublishing();
@@ -126,6 +128,21 @@ class AdminServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'admin');
     }
 
+     protected function registerTranslations()
+    {
+        // For Laravel 11 compatibility, we need to merge translations into the main lang directory
+        // instead of using a namespace, so that __('admin.key') works without admin:: prefix
+        $langPath = $this->app->langPath();
+        $adminLangPath = __DIR__.'/../resources/lang';
+
+        // Check if admin translations are already published
+        if (!file_exists($langPath.'/zh_CN/admin.php') && file_exists($adminLangPath)) {
+            // Load translations from vendor directory without namespace
+            $this->loadTranslationsFrom($adminLangPath);
+        }
+    }
+
+
     /**
      * 是否强制使用https.
      *
@@ -134,7 +151,7 @@ class AdminServiceProvider extends ServiceProvider
     protected function ensureHttps()
     {
         if (config('admin.https') || config('admin.secure')) {
-            \URL::forceScheme('https');
+            URL::forceScheme('https');
             $this->app['request']->server->set('HTTPS', true);
         }
     }

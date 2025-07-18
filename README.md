@@ -5,17 +5,39 @@
 <br>
 
 <p align="center">
-    <a href="https://github.com/jqhph/dcat-admin/actions">
-        <img src="https://github.com/jqhph/dcat-admin/workflows/Laravel%20Dusk/badge.svg" alt="Build Status">
+    <a href="https://github.com/dongasai/dcat-admin2/actions">
+        <img src="https://github.com/dongasai/dcat-admin2/workflows/Laravel%20Dusk/badge.svg" alt="Build Status">
     </a>
-    <a href="https://styleci.io/repos/182349597">
-        <img src="https://github.styleci.io/repos/182349597/shield" alt="StyleCI">
-    </a>
-    <a href="https://packagist.org/packages/dcat/laravel-admin" ><img src="https://poser.pugx.org/dcat/laravel-admin/v/stable" /></a> 
-    <a href="https://packagist.org/packages/dcat/laravel-admin"><img src="https://img.shields.io/packagist/dt/dcat/laravel-admin.svg?color=" /></a> 
-    <a><img src="https://img.shields.io/badge/php-7.1+-59a9f8.svg?style=flat" /></a> 
-    <a><img src="https://img.shields.io/badge/laravel-5.5+-59a9f8.svg?style=flat" ></a>
+    <a href="https://packagist.org/packages/dongasai/laravel-admin2" ><img src="https://poser.pugx.org/dongasai/laravel-admin2/v/stable" /></a> 
+    <a href="https://packagist.org/packages/dongasai/laravel-admin2"><img src="https://img.shields.io/packagist/dt/dongasai/laravel-admin2.svg?color=" /></a> 
+    <a><img src="https://img.shields.io/badge/php-8.0+-59a9f8.svg?style=flat" /></a> 
+    <a><img src="https://img.shields.io/badge/laravel-10+-59a9f8.svg?style=flat" ></a>
 </p>
+
+
+由于原项目([jqhph/dcat-admin](https://github.com/jqhph/dcat-admin))已维护迟缓，故基于原作者的项目进行二次开发，修复了部分问题，并添加了更多功能。
+
+> 原项目对 `Laravel 9`的支持是没问题的,因此这个仓库从10开始
+
+新增功能如下：
+
+- [支持 Laravel 10](https://learnku.com/docs/laravel/10.x)
+- [支持 Laravel 11](https://learnku.com/docs/laravel/11.x)
+- [计划支持 Laravel 12](https://learnku.com/docs/laravel/12.x) 看对应分支是否有版本发布就好了
+- 新的分支策略，原项目分支的两个分支不删除，2.0作为主分支；新增对应Laravel版本的分支，维护一个支持各种版本的项目麻烦，但是对应每个版本做出微调保持Api一致不难
+
+> [!IMPORTANT]
+> 免责声明：
+> 尽管我已在**多个项目**中使用过该项目，但我无法保证所做的修改和调整绝对无误。因此，在将其应用于你的生产项目环境时，请务必保持谨慎，充分测试后再使用。
+> 
+> 安装方法：
+> `composer require dongasai/laravel-admin2`
+
+---
+
+> [!NOTE]
+> 以下内容是原 repo README.md 介绍并作出了微调
+
 
 <p align=""><code>Dcat Admin</code>是一个基于<a href="https://www.laravel-admin.org/" target="_blank">laravel-admin</a>二次开发而成的后台系统构建工具，只需很少的代码即可快速构建出一个功能完善的高颜值后台系统。内置丰富的后台常用组件，开箱即用，让开发者告别冗杂的HTML代码，对后端开发者非常友好。</p>
 
@@ -57,7 +79,7 @@
 - [x] `Section`功能（类似`Wordpress`的`Filter`和`blade`模板的`section`标签）
 - [x] 异步文件上传表单，支持分块多线程上传
 - [x] 多应用
-- [ ] 插件市场，只需在管理页面轻轻点击鼠标即可完成插件的安装、更新和卸载等操作
+
 
 
 ### 环境

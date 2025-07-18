@@ -27,10 +27,10 @@
     <div class="breadcrumb-wrapper col-12">
     <ol class="breadcrumb float-right text-capitalize">
         <li class="breadcrumb-item"><a href="{{ admin_url('/') }}"><i class="fa fa-dashboard"></i> {{admin_trans('admin.home')}}</a></li>
-        @for($i = 2; $i <= ($len = count(Request::segments())); $i++)
+        @for($i = 2; $i <= ($len = count(request()->segments())); $i++)
             <li class="breadcrumb-item">
                 @if($i == $len) <a href=""> @endif
-                {{admin_trans_label(Request::segment($i))}}
+                {{admin_trans_label(request()->segment($i))}}
                 @if($i == $len) </a> @endif
             </li>
         @endfor
