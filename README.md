@@ -23,7 +23,7 @@
 
 - [支持 Laravel 10](https://learnku.com/docs/laravel/10.x)
 - [支持 Laravel 11](https://learnku.com/docs/laravel/11.x)
-- [计划支持 Laravel 12](https://learnku.com/docs/laravel/12.x) 看对应分支是否有版本发布就好了
+- [支持 Laravel 12](https://learnku.com/docs/laravel/12.x) 看对应分支是否有版本发布就好了
 - 新的分支策略，原项目分支的两个分支不删除，2.0作为主分支；新增对应Laravel版本的分支，维护一个支持各种版本的项目麻烦，但是对应每个版本做出微调保持Api一致不难
 
 > [!IMPORTANT]
