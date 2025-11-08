@@ -34,6 +34,9 @@
 > `composer require dongasai/laravel-admin2`
 
 ---
+> [!NOTE]
+>  **多应用/多后台/multi_app** 功能不可用，使用过程遇到了较多问题，不好解决
+
 
 > [!NOTE]
 > 以下内容是原 repo README.md 介绍并作出了微调
