@@ -4,6 +4,7 @@ namespace Dcat\Admin\Grid\Tools;
 
 use Dcat\Admin\Admin;
 use Dcat\Admin\Grid\BatchAction;
+use Dcat\Admin\Support\AdminConfig;
 use Dcat\Admin\Traits\HasVariables;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Macroable;
@@ -52,7 +53,7 @@ class BatchActions extends AbstractTool
 
     protected function makeBatchDelete()
     {
-        $class = config('admin.grid.actions.batch_delete') ?: BatchDelete::class;
+        $class = AdminConfig::grid('actions.batch_delete') ?: BatchDelete::class;
 
         return new $class(trans('admin.delete'));
     }

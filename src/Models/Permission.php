@@ -3,6 +3,7 @@
 namespace Dcat\Admin\Models;
 
 use Dcat\Admin\Support\Helper;
+use Dcat\Admin\Support\AdminConfig;
 use Dcat\Admin\Traits\HasDateTimeFormatter;
 use Dcat\Admin\Traits\ModelTree;
 use Illuminate\Database\Eloquent\Model;
@@ -44,11 +45,11 @@ class Permission extends Model implements Sortable
 
     protected function init()
     {
-        $connection = config('admin.database.connection') ?: config('database.default');
+        $connection = AdminConfig::database('connection') ?: config('database.default');
 
         $this->setConnection($connection);
 
-        $this->setTable(config('admin.database.permissions_table'));
+        $this->setTable(AdminConfig::database('permissions_table'));
     }
 
     /**
@@ -58,9 +59,9 @@ class Permission extends Model implements Sortable
      */
     public function roles(): BelongsToMany
     {
-        $pivotTable = config('admin.database.role_permissions_table');
+        $pivotTable = AdminConfig::database('role_permissions_table');
 
-        $relatedModel = config('admin.database.roles_model');
+        $relatedModel = AdminConfig::database('roles_model');
 
         return $this->belongsToMany($relatedModel, $pivotTable, 'permission_id', 'role_id');
     }
@@ -70,9 +71,9 @@ class Permission extends Model implements Sortable
      */
     public function menus(): BelongsToMany
     {
-        $pivotTable = config('admin.database.permission_menu_table');
+        $pivotTable = AdminConfig::database('permission_menu_table');
 
-        $relatedModel = config('admin.database.menu_model');
+        $relatedModel = AdminConfig::database('menu_model');
 
         return $this->belongsToMany($relatedModel, $pivotTable, 'permission_id', 'menu_id')->withTimestamps();
     }

@@ -2,6 +2,8 @@
 
 namespace Dcat\Admin\Console;
 
+use Dcat\Admin\Support\AdminConfig;
+
 class FormCommand extends GeneratorCommand
 {
     /**
@@ -54,7 +56,7 @@ class FormCommand extends GeneratorCommand
             return $namespace;
         }
 
-        return str_replace('Controllers', 'Forms', config('admin.route.namespace'));
+        return str_replace('Controllers', 'Forms', AdminConfig::route('namespace'));
     }
 
     /**

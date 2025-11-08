@@ -5,6 +5,14 @@ namespace Dcat\Admin\Console;
 use Dcat\Admin\Models\AdminTablesSeeder;
 use Illuminate\Console\Command;
 
+/**
+ * Dcat Admin 安装命令
+ *
+ * 注意：此命令专门用于 admin 主应用的初始化安装，
+ * 不支持多后台配置，始终保持使用 admin 配置前缀。
+ * 这是因为安装是首次操作，针对默认的 admin 后台。
+ */
+
 class InstallCommand extends Command
 {
     /**

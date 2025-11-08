@@ -2,6 +2,7 @@
 
 namespace Dcat\Admin\Traits;
 
+use Dcat\Admin\Support\AdminConfig;
 use Dcat\Admin\Support\Helper;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
@@ -71,7 +72,7 @@ trait HasPermissions
      */
     public function isAdministrator(): bool
     {
-        $roleModel = config('admin.database.roles_model');
+        $roleModel = AdminConfig::database('roles_model');
 
         return $this->isRole($roleModel::ADMINISTRATOR);
     }

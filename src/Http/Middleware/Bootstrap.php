@@ -3,6 +3,7 @@
 namespace Dcat\Admin\Http\Middleware;
 
 use Dcat\Admin\Admin;
+use Dcat\Admin\Support\AdminConfig;
 use Dcat\Admin\Support\Helper;
 use Dcat\Admin\Widgets\DarkModeSwitcher;
 use Illuminate\Http\Request;
@@ -26,7 +27,7 @@ class Bootstrap
     protected function setUpDarkMode()
     {
         if (
-            config('admin.layout.dark_mode_switch')
+            AdminConfig::layout('dark_mode_switch')
             && ! Helper::isAjaxRequest()
             && ! request()->routeIs(admin_api_route_name('*'))
         ) {

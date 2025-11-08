@@ -2,6 +2,7 @@
 
 namespace Dcat\Admin\Models;
 
+use Dcat\Admin\Support\AdminConfig;
 use Illuminate\Database\Eloquent\Model;
 
 class Setting extends Model
@@ -22,10 +23,10 @@ class Setting extends Model
 
     protected function init()
     {
-        $connection = config('admin.database.connection') ?: config('database.default');
+        $connection = AdminConfig::database('connection') ?: config('database.default');
 
         $this->setConnection($connection);
 
-        $this->setTable(config('admin.database.settings_table') ?: 'admin_settings');
+        $this->setTable(AdminConfig::database('settings_table') ?: 'admin_settings');
     }
 }

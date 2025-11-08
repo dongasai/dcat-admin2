@@ -2,6 +2,8 @@
 
 namespace Dcat\Admin\Console;
 
+use Dcat\Admin\Support\AdminConfig;
+
 class ActionCommand extends GeneratorCommand
 {
     /**
@@ -129,7 +131,7 @@ class ActionCommand extends GeneratorCommand
             return $this->namespace;
         }
 
-        $segments = explode('\\', config('admin.route.namespace'));
+        $segments = explode('\\', AdminConfig::route('namespace'));
         array_pop($segments);
         array_push($segments, 'Actions');
 

@@ -3,6 +3,7 @@
 namespace Dcat\Admin\Support;
 
 use Dcat\Admin\Exception\AdminException;
+use Dcat\Admin\Support\AdminConfig;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Seeder;
@@ -181,6 +182,6 @@ class DatabaseUpdater
 
     public function connection()
     {
-        return config('admin.database.connection') ?: config('database.default');
+        return AdminConfig::database('connection') ?: config('database.default');
     }
 }

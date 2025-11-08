@@ -2,6 +2,7 @@
 
 namespace Dcat\Admin\Grid\Displayers;
 
+use Dcat\Admin\Support\AdminConfig;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Facades\Storage;
 
@@ -19,7 +20,7 @@ class Image extends AbstractDisplayer
             } elseif ($server) {
                 $src = rtrim($server, '/').'/'.ltrim($path, '/');
             } else {
-                $src = Storage::disk(config('admin.upload.disk'))->url($path);
+                $src = Storage::disk(AdminConfig::upload('disk'))->url($path);
             }
 
             return "<img data-action='preview-img' src='$src' style='max-width:{$width}px;max-height:{$height}px;cursor:pointer' class='img img-thumbnail' />";

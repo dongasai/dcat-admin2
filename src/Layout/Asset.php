@@ -4,6 +4,7 @@ namespace Dcat\Admin\Layout;
 
 use Dcat\Admin\Admin;
 use Dcat\Admin\Color;
+use Dcat\Admin\Support\AdminConfig;
 use Illuminate\Support\Str;
 
 class Asset
@@ -495,10 +496,10 @@ class Asset
         $path = $this->getRealPath($path);
 
         if (mb_strpos($path, '//') === false) {
-            $path = config('admin.assets_server').'/'.trim($path, '/');
+            $path = AdminConfig::get('assets_server').'/'.trim($path, '/');
         }
 
-        return (config('admin.https') || config('admin.secure')) ? secure_asset($path) : asset($path);
+        return AdminConfig::isHttps() ? secure_asset($path) : asset($path);
     }
 
     /**

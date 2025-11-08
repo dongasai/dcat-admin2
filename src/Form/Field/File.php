@@ -4,6 +4,7 @@ namespace Dcat\Admin\Form\Field;
 
 use Dcat\Admin\Contracts\UploadField as UploadFieldInterface;
 use Dcat\Admin\Form\Field;
+use Dcat\Admin\Support\AdminConfig;
 use Dcat\Admin\Support\Helper;
 use Dcat\Admin\Support\JavaScript;
 use Illuminate\Support\Arr;
@@ -41,7 +42,7 @@ class File extends Field implements UploadFieldInterface
      */
     public function defaultDirectory()
     {
-        return config('admin.upload.directory.file');
+        return AdminConfig::get('upload.directory.file');
     }
 
     /**

@@ -4,6 +4,7 @@ namespace Dcat\Admin\Layout;
 
 use Dcat\Admin\Admin;
 use Dcat\Admin\Support\Helper;
+use Dcat\Admin\Support\AdminConfig;
 use Illuminate\Support\Facades\Lang;
 
 class Menu
@@ -45,13 +46,13 @@ class Menu
     {
         if (! admin_has_default_section(Admin::SECTION['LEFT_SIDEBAR_MENU'])) {
             admin_inject_default_section(Admin::SECTION['LEFT_SIDEBAR_MENU'], function () {
-                $menuModel = config('admin.database.menu_model');
+                $menuModel = AdminConfig::database('menu_model');
 
                 return $this->toHtml((new $menuModel())->allNodes()->toArray());
             });
         }
 
-        if (config('app.debug') && config('admin.helpers.enable', true)) {
+        if (config('app.debug') && AdminConfig::helpers('enable', true)) {
             $this->add(static::$helperNodes, 20);
         }
     }

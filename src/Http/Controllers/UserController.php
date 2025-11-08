@@ -8,6 +8,7 @@ use Dcat\Admin\Http\Auth\Permission;
 use Dcat\Admin\Http\Repositories\Administrator;
 use Dcat\Admin\Models\Administrator as AdministratorModel;
 use Dcat\Admin\Show;
+use Dcat\Admin\Support\AdminConfig;
 use Dcat\Admin\Support\Helper;
 use Dcat\Admin\Widgets\Tree;
 
@@ -25,11 +26,11 @@ class UserController extends AdminController
             $grid->column('username');
             $grid->column('name');
 
-            if (config('admin.permission.enable')) {
+            if (AdminConfig::permissionEnabled()) {
                 $grid->column('roles')->pluck('name')->label('primary', 3);
 
-                $permissionModel = config('admin.database.permissions_model');
-                $roleModel = config('admin.database.roles_model');
+                $permissionModel = AdminConfig::database('permissions_model');
+                $roleModel = AdminConfig::database('roles_model');
                 $nodes = (new $permissionModel())->allNodes();
                 $grid->column('permissions')
                     ->if(function () {
@@ -75,7 +76,7 @@ class UserController extends AdminController
 
             $show->field('avatar', __('admin.avatar'))->image();
 
-            if (config('admin.permission.enable')) {
+            if (AdminConfig::permissionEnabled()) {
                 $show->field('roles')->as(function ($roles) {
                     if (! $roles) {
                         return;
@@ -87,8 +88,8 @@ class UserController extends AdminController
                 $show->field('permissions')->unescape()->as(function () {
                     $roles = $this->roles->toArray();
 
-                    $permissionModel = config('admin.database.permissions_model');
-                    $roleModel = config('admin.database.roles_model');
+                    $permissionModel = AdminConfig::database('permissions_model');
+                    $roleModel = AdminConfig::database('roles_model');
                     $permissionModel = new $permissionModel();
                     $nodes = $permissionModel->allNodes();
 
@@ -121,9 +122,9 @@ class UserController extends AdminController
     public function form()
     {
         return Form::make(Administrator::with(['roles']), function (Form $form) {
-            $userTable = config('admin.database.users_table');
+            $userTable = AdminConfig::database('users_table');
 
-            $connection = config('admin.database.connection');
+            $connection = AdminConfig::database('connection');
 
             $id = $form->getKey();
 
@@ -154,10 +155,10 @@ class UserController extends AdminController
 
             $form->ignore(['password_confirmation']);
 
-            if (config('admin.permission.enable')) {
+            if (AdminConfig::permissionEnabled()) {
                 $form->multipleSelect('roles', trans('admin.roles'))
                     ->options(function () {
-                        $roleModel = config('admin.database.roles_model');
+                        $roleModel = AdminConfig::database('roles_model');
 
                         return $roleModel::all()->pluck('name', 'id');
                     })

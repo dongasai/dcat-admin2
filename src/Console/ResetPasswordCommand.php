@@ -2,10 +2,13 @@
 
 namespace Dcat\Admin\Console;
 
+use Dcat\Admin\Support\AdminConfig;
+use Dcat\Admin\Support\WithAdminSelection;
 use Illuminate\Console\Command;
 
 class ResetPasswordCommand extends Command
 {
+    use WithAdminSelection;
     /**
      * The name and signature of the console command.
      *
@@ -25,7 +28,12 @@ class ResetPasswordCommand extends Command
      */
     public function handle()
     {
-        $userModel = config('admin.database.users_model');
+        // 选择并设置后台配置
+        $adminType = $this->selectAndSetupAdmin();
+
+        $this->info("正在重置用户密码...");
+
+        $userModel = AdminConfig::database('users_model');
 
         $users = $userModel::all();
 

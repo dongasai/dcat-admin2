@@ -45,7 +45,7 @@ class Application
     {
         return $this->apps ?: ($this->apps = (array) config('admin.multi_app'));
     }
-
+    
     public function getEnabledApps()
     {
         return array_filter($this->getApps());

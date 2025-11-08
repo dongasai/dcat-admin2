@@ -17,6 +17,8 @@ use Dcat\Admin\Support\Helper;
 use Dcat\Admin\Support\Setting;
 use Dcat\Admin\Support\Translator;
 use Dcat\Admin\Support\WebUploader;
+use Dcat\Admin\Support\AdminConfig;
+use Dcat\Admin\Support\AdminConfigInitializer;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\URL;
@@ -105,6 +107,9 @@ class AdminServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        // 初始化配置前缀，支持多后台
+        AdminConfigInitializer::initialize();
+
         $this->registerDefaultSections();
         $this->registerViews();
         $this->registerTranslations();
