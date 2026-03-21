@@ -8,6 +8,7 @@ use Dcat\Admin\Grid\Tools\AbstractTool;
 use Dcat\Admin\Grid\Tools\BatchActions;
 use Dcat\Admin\Grid\Tools\FilterButton;
 use Dcat\Admin\Grid\Tools\RefreshButton;
+use Dcat\Admin\Support\AdminConfig;
 use Dcat\Admin\Support\Helper;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\Support\Renderable;
@@ -64,7 +65,7 @@ class Tools implements Renderable
 
     protected function makeBatchActions()
     {
-        $class = $this->grid->option('batch_actions_class') ?: (config('admin.grid.batch_action_class') ?: BatchActions::class);
+        $class = $this->grid->option('batch_actions_class') ?: (AdminConfig::grid('batch_action_class') ?: BatchActions::class);
 
         return new $class();
     }

@@ -2,6 +2,7 @@
 
 namespace Dcat\Admin\Console;
 
+use Dcat\Admin\Support\AdminConfig;
 use Illuminate\Console\Command;
 
 class MenuCacheCommand extends Command
@@ -27,7 +28,7 @@ class MenuCacheCommand extends Command
      */
     public function handle()
     {
-        $menuModel = config('admin.database.menu_model');
+        $menuModel = AdminConfig::database('menu_model');
         $menuModel = new $menuModel();
 
         $menuModel->flushCache();

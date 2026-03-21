@@ -8,6 +8,7 @@ use Dcat\Admin\Http\Repositories\Menu;
 use Dcat\Admin\Layout\Column;
 use Dcat\Admin\Layout\Content;
 use Dcat\Admin\Layout\Row;
+use Dcat\Admin\Support\AdminConfig;
 use Dcat\Admin\Tree;
 use Dcat\Admin\Widgets\Box;
 use Dcat\Admin\Widgets\Form as WidgetForm;
@@ -31,9 +32,9 @@ class MenuController extends AdminController
                     $form = new WidgetForm();
                     $form->action(admin_url('auth/menu'));
 
-                    $menuModel = config('admin.database.menu_model');
-                    $permissionModel = config('admin.database.permissions_model');
-                    $roleModel = config('admin.database.roles_model');
+                    $menuModel = AdminConfig::database('menu_model');
+                    $permissionModel = AdminConfig::database('permissions_model');
+                    $roleModel = AdminConfig::database('roles_model');
 
                     $form->select('parent_id', trans('admin.parent_id'))->options($menuModel::selectOptions());
                     $form->text('title', trans('admin.title'))->required();
@@ -62,7 +63,7 @@ class MenuController extends AdminController
      */
     protected function treeView()
     {
-        $menuModel = config('admin.database.menu_model');
+        $menuModel = AdminConfig::database('menu_model');
 
         return new Tree(new $menuModel(), function (Tree $tree) {
             $tree->disableCreateButton();
@@ -103,7 +104,7 @@ class MenuController extends AdminController
      */
     public function form()
     {
-        $menuModel = config('admin.database.menu_model');
+        $menuModel = AdminConfig::database('menu_model');
 
         $relations = $menuModel::withPermission() ? ['permissions', 'roles'] : 'roles';
 
@@ -127,7 +128,7 @@ class MenuController extends AdminController
             if ($menuModel::withRole()) {
                 $form->multipleSelect('roles', trans('admin.roles'))
                     ->options(function () {
-                        $roleModel = config('admin.database.roles_model');
+                        $roleModel = AdminConfig::database('roles_model');
 
                         return $roleModel::all()->pluck('name', 'id');
                     })
@@ -139,7 +140,7 @@ class MenuController extends AdminController
                 $form->tree('permissions', trans('admin.permission'))
                     ->treeState(false)
                     ->nodes(function () {
-                        $permissionModel = config('admin.database.permissions_model');
+                        $permissionModel = AdminConfig::database('permissions_model');
 
                         return (new $permissionModel())->allNodes();
                     })

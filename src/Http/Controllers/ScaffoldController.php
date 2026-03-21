@@ -4,6 +4,7 @@ namespace Dcat\Admin\Http\Controllers;
 
 use Dcat\Admin\Admin;
 use Dcat\Admin\Http\Auth\Permission;
+use Dcat\Admin\Support\AdminConfig;
 use Dcat\Admin\Layout\Content;
 use Dcat\Admin\Scaffold\ControllerCreator;
 use Dcat\Admin\Scaffold\LangCreator;
@@ -80,7 +81,7 @@ class ScaffoldController extends Controller
         $action = URL::current();
         $namespaceBase = 'App\\'.implode('\\', array_map(function ($name) {
             return Str::studly($name);
-        }, explode(DIRECTORY_SEPARATOR, substr(config('admin.directory'), strlen(app_path().DIRECTORY_SEPARATOR)))));
+        }, explode(DIRECTORY_SEPARATOR, substr(AdminConfig::directory(), strlen(app_path().DIRECTORY_SEPARATOR)))));
         $tables = collect($this->getDatabaseColumns())->map(function ($v) {
             return array_keys($v);
         })->toArray();

@@ -4,6 +4,7 @@ namespace Dcat\Admin\Extend;
 
 use Dcat\Admin\Admin;
 use Dcat\Admin\Exception\RuntimeException;
+use Dcat\Admin\Support\AdminConfig;
 use Dcat\Admin\Support\ComposerProperty;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\URL;
@@ -393,8 +394,8 @@ abstract class ServiceProvider extends LaravelServiceProvider
     {
         Admin::app()->routes(function ($router) use ($callback) {
             $router->group([
-                'prefix'     => config('admin.route.prefix'),
-                'middleware' => config('admin.route.middleware'),
+                'prefix'     => AdminConfig::routePrefix(),
+                'middleware' => AdminConfig::route('middleware'),
             ], $callback);
         });
     }
@@ -414,7 +415,7 @@ abstract class ServiceProvider extends LaravelServiceProvider
      */
     protected function addMiddleware()
     {
-        $adminMiddleware = (array) config('admin.route.middleware');
+        $adminMiddleware = (array) AdminConfig::route('middleware');
         $middleware = $this->middleware();
 
         $before = $middleware['before'] ?? [];

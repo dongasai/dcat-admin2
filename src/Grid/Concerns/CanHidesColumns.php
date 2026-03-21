@@ -5,6 +5,7 @@ namespace Dcat\Admin\Grid\Concerns;
 use Dcat\Admin\Contracts\Grid\ColumnSelectorStore;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Grid\Tools\ColumnSelector;
+use Dcat\Admin\Support\AdminConfig;
 use Dcat\Admin\Support\Helper;
 use Illuminate\Support\Collection;
 
@@ -238,8 +239,8 @@ trait CanHidesColumns
 
     protected function makeColumnSelectorStorage()
     {
-        $store = config('admin.grid.column_selector.store') ?: Grid\ColumnSelector\SessionStore::class;
-        $params = (array) config('admin.grid.column_selector.store_params') ?: [];
+        $store = AdminConfig::grid('column_selector.store') ?: Grid\ColumnSelector\SessionStore::class;
+        $params = (array) AdminConfig::grid('column_selector.store_params') ?: [];
 
         $storage = app($store, $params);
 

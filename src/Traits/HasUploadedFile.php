@@ -4,6 +4,7 @@ namespace Dcat\Admin\Traits;
 
 use Dcat\Admin\Admin;
 use Dcat\Admin\Form\Field\File;
+use Dcat\Admin\Support\AdminConfig;
 use Dcat\Admin\Support\Helper;
 use Dcat\Admin\Support\WebUploader;
 use Illuminate\Filesystem\FilesystemAdapter;
@@ -39,7 +40,7 @@ trait HasUploadedFile
      */
     public function disk(string $disk = null)
     {
-        return Storage::disk($disk ?: config('admin.upload.disk'));
+        return Storage::disk($disk ?: AdminConfig::upload('disk'));
     }
 
     /**

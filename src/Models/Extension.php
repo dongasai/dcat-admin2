@@ -2,6 +2,7 @@
 
 namespace Dcat\Admin\Models;
 
+use Dcat\Admin\Support\AdminConfig;
 use Illuminate\Database\Eloquent\Model;
 
 class Extension extends Model
@@ -24,10 +25,10 @@ class Extension extends Model
 
     protected function init()
     {
-        $connection = config('admin.database.connection') ?: config('database.default');
+        $connection = AdminConfig::database('connection') ?: config('database.default');
 
         $this->setConnection($connection);
 
-        $this->setTable(config('admin.database.extensions_table') ?: 'admin_extensions');
+        $this->setTable(AdminConfig::database('extensions_table') ?: 'admin_extensions');
     }
 }

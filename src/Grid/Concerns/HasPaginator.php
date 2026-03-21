@@ -3,6 +3,7 @@
 namespace Dcat\Admin\Grid\Concerns;
 
 use Dcat\Admin\Grid\Tools;
+use Dcat\Admin\Support\AdminConfig;
 
 trait HasPaginator
 {
@@ -78,7 +79,7 @@ trait HasPaginator
     public function paginator()
     {
         if (! $this->paginator) {
-            $paginatorClass = $this->options['paginator_class'] ?: (config('admin.grid.paginator_class') ?: Tools\Paginator::class);
+            $paginatorClass = $this->options['paginator_class'] ?: (AdminConfig::grid('paginator_class') ?: Tools\Paginator::class);
 
             $this->paginator = new $paginatorClass($this);
         }

@@ -5,6 +5,7 @@ namespace Dcat\Admin\Http\Middleware;
 use Dcat\Admin\Admin;
 use Dcat\Admin\Exception\RuntimeException;
 use Dcat\Admin\Http\Auth\Permission as Checker;
+use Dcat\Admin\Support\AdminConfig;
 use Dcat\Admin\Support\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -31,7 +32,7 @@ class Permission
         if (
             ! $user
             || ! empty($args)
-            || ! config('admin.permission.enable')
+            || ! AdminConfig::permissionEnabled()
             || $this->shouldPassThrough($request)
             || $user->isAdministrator()
             || $this->checkRoutePermission($request)
@@ -98,7 +99,7 @@ class Permission
         }
 
         $excepts = array_merge(
-            (array) config('admin.permission.except', []),
+            (array) AdminConfig::get('permission.except', []),
             Admin::context()->getArray('permission.except')
         );
 

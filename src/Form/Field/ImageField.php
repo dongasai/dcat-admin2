@@ -3,6 +3,7 @@
 namespace Dcat\Admin\Form\Field;
 
 use Dcat\Admin\Exception\AdminException;
+use Dcat\Admin\Support\AdminConfig;
 use Illuminate\Support\Str;
 use Intervention\Image\Constraint;
 use Intervention\Image\Facades\Image as InterventionImage;
@@ -36,7 +37,7 @@ trait ImageField
      */
     public function defaultDirectory()
     {
-        return config('admin.upload.directory.image');
+        return AdminConfig::get('upload.directory.image');
     }
 
     /**

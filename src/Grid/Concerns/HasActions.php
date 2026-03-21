@@ -4,6 +4,7 @@ namespace Dcat\Admin\Grid\Concerns;
 
 use Closure;
 use Dcat\Admin\Grid;
+use Dcat\Admin\Support\AdminConfig;
 use Illuminate\Contracts\Support\Renderable;
 
 trait HasActions
@@ -37,7 +38,7 @@ trait HasActions
             return $this->options['actions_class'];
         }
 
-        if ($class = config('admin.grid.grid_action_class')) {
+        if ($class = AdminConfig::grid('grid_action_class')) {
             return $class;
         }
 

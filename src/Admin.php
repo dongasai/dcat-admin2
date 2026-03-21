@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
+use Dcat\Admin\Support\AdminConfig;
 use Symfony\Component\HttpFoundation\Response;
 
 class Admin
@@ -105,7 +106,7 @@ class Admin
     public static function title($title = null)
     {
         if ($title === null) {
-            return static::context()->metaTitle ?: config('admin.title');
+            return static::context()->metaTitle ?: AdminConfig::title();
         }
 
         static::context()->metaTitle = $title;
@@ -118,7 +119,7 @@ class Admin
     public static function favicon($favicon = null)
     {
         if ($favicon === null) {
-            return static::context()->favicon ?: config('admin.favicon');
+            return static::context()->favicon ?: AdminConfig::get('favicon');
         }
 
         static::context()->favicon = $favicon;
@@ -149,7 +150,7 @@ class Admin
      */
     public static function guard()
     {
-        return Auth::guard(config('admin.auth.guard') ?: 'admin');
+        return Auth::guard(AdminConfig::auth('guard') ?: 'admin');
     }
 
     /**
@@ -535,7 +536,7 @@ class Admin
             return;
         }
 
-        $sidebarStyle = config('admin.layout.sidebar_style') ?: 'light';
+        $sidebarStyle = AdminConfig::layout('sidebar_style') ?: 'light';
 
         $pjaxId = static::getPjaxContainerId();
 
@@ -544,7 +545,7 @@ class Admin
         $jsVariables['lang'] = ($lang = __('admin.client')) ? array_merge($lang, $jsVariables['lang'] ?? []) : [];
         $jsVariables['colors'] = static::color()->all();
         $jsVariables['dark_mode'] = static::isDarkMode();
-        $jsVariables['sidebar_dark'] = config('admin.layout.sidebar_dark') || ($sidebarStyle === 'dark');
+        $jsVariables['sidebar_dark'] = AdminConfig::layout('sidebar_dark') || ($sidebarStyle === 'dark');
         $jsVariables['sidebar_light_style'] = in_array($sidebarStyle, ['dark', 'light'], true) ? 'sidebar-light-primary' : 'sidebar-primary';
 
         return admin_javascript_json($jsVariables);
@@ -555,7 +556,7 @@ class Admin
      */
     public static function isDarkMode()
     {
-        $bodyClass = config('admin.layout.body_class');
+        $bodyClass = AdminConfig::layout('body_class');
 
         return in_array(
             'dark-mode',
@@ -572,11 +573,11 @@ class Admin
     public static function routes()
     {
         $attributes = [
-            'prefix'     => config('admin.route.prefix'),
-            'middleware' => config('admin.route.middleware'),
+            'prefix'     => AdminConfig::routePrefix(),
+            'middleware' => AdminConfig::route('middleware'),
         ];
 
-        if (config('admin.auth.enable', true)) {
+        if (AdminConfig::auth('enable', true)) {
             app('router')->group($attributes, function ($router) {
                 /* @var \Illuminate\Routing\Router $router */
                 $router->namespace('Dcat\Admin\Http\Controllers')->group(function ($router) {
@@ -584,7 +585,7 @@ class Admin
                     $router->resource('auth/users', 'UserController');
                     $router->resource('auth/menu', 'MenuController', ['except' => ['create', 'show']]);
 
-                    if (config('admin.permission.enable')) {
+                    if (AdminConfig::permissionEnabled()) {
                         $router->resource('auth/roles', 'RoleController');
                         $router->resource('auth/permissions', 'PermissionController');
                     }
@@ -592,7 +593,7 @@ class Admin
 
                 $router->resource('auth/extensions', 'Dcat\Admin\Http\Controllers\ExtensionController', ['only' => ['index', 'store', 'update']]);
 
-                $authController = config('admin.auth.controller', AuthController::class);
+                $authController = AdminConfig::auth('controller', AuthController::class);
 
                 $router->get('auth/login', $authController.'@getLogin');
                 $router->post('auth/login', $authController.'@postLogin');
@@ -614,7 +615,7 @@ class Admin
     {
         $attributes = [
             'prefix'     => admin_base_path('dcat-api'),
-            'middleware' => config('admin.route.middleware'),
+            'middleware' => AdminConfig::route('middleware'),
             'namespace'  => 'Dcat\Admin\Http\Controllers',
             'as'         => 'dcat-api.',
         ];
@@ -639,13 +640,13 @@ class Admin
      */
     public static function registerHelperRoutes()
     {
-        if (! config('admin.helpers.enable', true) || ! config('app.debug')) {
+        if (! AdminConfig::helpers('enable', true) || ! config('app.debug')) {
             return;
         }
 
         $attributes = [
-            'prefix'     => config('admin.route.prefix'),
-            'middleware' => config('admin.route.middleware'),
+            'prefix'     => AdminConfig::routePrefix(),
+            'middleware' => AdminConfig::route('middleware'),
         ];
 
         app('router')->group($attributes, function ($router) {

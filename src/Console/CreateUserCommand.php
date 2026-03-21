@@ -2,10 +2,13 @@
 
 namespace Dcat\Admin\Console;
 
+use Dcat\Admin\Support\AdminConfig;
+use Dcat\Admin\Support\WithAdminSelection;
 use Illuminate\Console\Command;
 
 class CreateUserCommand extends Command
 {
+    use WithAdminSelection;
     /**
      * The name and signature of the console command.
      *
@@ -25,8 +28,11 @@ class CreateUserCommand extends Command
      */
     public function handle()
     {
-        $userModel = config('admin.database.users_model');
-        $roleModel = config('admin.database.roles_model');
+        // 选择并设置后台配置
+        $adminType = $this->selectAndSetupAdmin();
+
+        $userModel = AdminConfig::database('users_model');
+        $roleModel = AdminConfig::database('roles_model');
 
         $username = $this->ask('Please enter a username to login');
 

@@ -5,6 +5,7 @@ namespace Dcat\Admin\Layout;
 use Closure;
 use Dcat\Admin\Admin;
 use Dcat\Admin\Exception\RuntimeException;
+use Dcat\Admin\Support\AdminConfig;
 use Dcat\Admin\Traits\HasBuilderEvents;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Traits\Macroable;
@@ -437,7 +438,7 @@ class Content implements Renderable
         ];
 
         $data = array_merge(
-            config('admin.layout') ?: [],
+            AdminConfig::layout() ?: [],
             $this->config
         );
 

@@ -4,6 +4,7 @@ namespace Dcat\Admin\Http\Middleware;
 
 use Closure;
 use Dcat\Admin\Admin;
+use Dcat\Admin\Support\AdminConfig;
 use Dcat\Admin\Support\Helper;
 use Illuminate\Http\Request;
 
@@ -19,7 +20,7 @@ class Authenticate
     public function handle($request, Closure $next)
     {
         if (
-            ! config('admin.auth.enable', true)
+            ! AdminConfig::auth('enable', true)
             || ! Admin::guard()->guest()
             || $this->shouldPassThrough($request)
         ) {
@@ -38,7 +39,7 @@ class Authenticate
     public static function shouldPassThrough($request)
     {
         $excepts = array_merge(
-            (array) config('admin.auth.except', []),
+            (array) AdminConfig::auth('except', []),
             Admin::context()->getArray('auth.except')
         );
 

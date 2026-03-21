@@ -2,6 +2,7 @@
 
 namespace Dcat\Admin\Grid\Displayers;
 
+use Dcat\Admin\Support\AdminConfig;
 use Dcat\Admin\Support\Helper;
 use Illuminate\Support\Facades\Storage;
 
@@ -19,7 +20,7 @@ class Downloadable extends AbstractDisplayer
             } elseif ($server) {
                 $src = rtrim($server, '/').'/'.ltrim($value, '/');
             } else {
-                $src = Storage::disk($disk ?: config('admin.upload.disk'))->url($value);
+                $src = Storage::disk($disk ?: AdminConfig::upload('disk'))->url($value);
             }
 
             $name = Helper::basename($value);

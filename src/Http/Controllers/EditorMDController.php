@@ -2,6 +2,7 @@
 
 namespace Dcat\Admin\Http\Controllers;
 
+use Dcat\Admin\Support\AdminConfig;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -32,7 +33,7 @@ class EditorMDController
      */
     protected function disk()
     {
-        $disk = request()->get('disk') ?: config('admin.upload.disk');
+        $disk = request()->get('disk') ?: AdminConfig::upload('disk');
 
         return Storage::disk($disk);
     }

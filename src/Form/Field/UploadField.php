@@ -3,6 +3,7 @@
 namespace Dcat\Admin\Form\Field;
 
 use Dcat\Admin\Exception\UploadException;
+use Dcat\Admin\Support\AdminConfig;
 use Dcat\Admin\Traits\HasUploadedFile;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
@@ -83,7 +84,7 @@ trait UploadField
      */
     protected function initStorage()
     {
-        $this->disk(config('admin.upload.disk'));
+        $this->disk(AdminConfig::upload('disk'));
 
         if (! $this->storage) {
             $this->storage = false;

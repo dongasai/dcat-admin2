@@ -2,6 +2,7 @@
 
 use Dcat\Admin\Admin;
 use Dcat\Admin\Support\Helper;
+use Dcat\Admin\Support\AdminConfig;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
@@ -248,7 +249,7 @@ if (! function_exists('admin_path')) {
      */
     function admin_path($path = '')
     {
-        return ucfirst(config('admin.directory')).($path ? DIRECTORY_SEPARATOR.$path : $path);
+        return AdminConfig::directory($path);
     }
 }
 
@@ -267,7 +268,7 @@ if (! function_exists('admin_url')) {
             return $path;
         }
 
-        $secure = $secure ?: (config('admin.https') || config('admin.secure'));
+        $secure = $secure ?: AdminConfig::isHttps();
 
         return url(admin_base_path($path), $parameters, $secure);
     }
@@ -282,7 +283,7 @@ if (! function_exists('admin_base_path')) {
      */
     function admin_base_path($path = '')
     {
-        $prefix = '/'.trim(config('admin.route.prefix'), '/');
+        $prefix = '/'.trim(AdminConfig::routePrefix(), '/');
 
         $prefix = ($prefix == '/') ? '' : $prefix;
 
@@ -426,7 +427,7 @@ if (! function_exists('admin_extension_path')) {
      */
     function admin_extension_path(string $path = '')
     {
-        $dir = rtrim(config('admin.extension.dir'), '/') ?: base_path('dcat-admin-extensions');
+        $dir = rtrim(AdminConfig::extension('dir'), '/') ?: base_path('dcat-admin-extensions');
 
         $path = ltrim($path, '/');
 

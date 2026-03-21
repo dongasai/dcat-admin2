@@ -7,6 +7,7 @@ use Dcat\Admin\Grid;
 use Dcat\Admin\Http\Auth\Permission;
 use Dcat\Admin\Http\Repositories\Role;
 use Dcat\Admin\Show;
+use Dcat\Admin\Support\AdminConfig;
 use Dcat\Admin\Support\Helper;
 use Dcat\Admin\Widgets\Tree;
 
@@ -33,7 +34,7 @@ class RoleController extends AdminController
             $grid->enableDialogCreate();
 
             $grid->actions(function (Grid\Displayers\Actions $actions) {
-                $roleModel = config('admin.database.roles_model');
+                $roleModel = AdminConfig::database('roles_model');
                 if ($roleModel::isAdministrator($actions->row->slug)) {
                     $actions->disableDelete();
                 }
@@ -49,7 +50,7 @@ class RoleController extends AdminController
             $show->field('name');
 
             $show->field('permissions')->unescape()->as(function ($permission) {
-                $permissionModel = config('admin.database.permissions_model');
+                $permissionModel = AdminConfig::database('permissions_model');
                 $permissionModel = new $permissionModel();
                 $nodes = $permissionModel->allNodes();
 
@@ -66,7 +67,7 @@ class RoleController extends AdminController
             $show->field('created_at');
             $show->field('updated_at');
 
-            $roleModel = config('admin.database.roles_model');
+            $roleModel = AdminConfig::database('roles_model');
             if ($show->getKey() == $roleModel::ADMINISTRATOR_ID) {
                 $show->disableDeleteButton();
             }
@@ -77,13 +78,13 @@ class RoleController extends AdminController
     {
         $with = ['permissions'];
 
-        if ($bindMenu = config('admin.menu.role_bind_menu', true)) {
+        if ($bindMenu = AdminConfig::get('menu.role_bind_menu', true)) {
             $with[] = 'menus';
         }
 
         return Form::make(Role::with($with), function (Form $form) use ($bindMenu) {
-            $roleTable = config('admin.database.roles_table');
-            $connection = config('admin.database.connection');
+            $roleTable = AdminConfig::database('roles_table');
+            $connection = AdminConfig::database('connection');
 
             $id = $form->getKey();
 
@@ -98,7 +99,7 @@ class RoleController extends AdminController
 
             $form->tree('permissions')
                 ->nodes(function () {
-                    $permissionModel = config('admin.database.permissions_model');
+                    $permissionModel = AdminConfig::database('permissions_model');
                     $permissionModel = new $permissionModel();
 
                     return $permissionModel->allNodes();
@@ -116,7 +117,7 @@ class RoleController extends AdminController
                     ->treeState(false)
                     ->setTitleColumn('title')
                     ->nodes(function () {
-                        $model = config('admin.database.menu_model');
+                        $model = AdminConfig::database('menu_model');
 
                         return (new $model())->allNodes();
                     })
@@ -132,19 +133,19 @@ class RoleController extends AdminController
             $form->display('created_at', trans('admin.created_at'));
             $form->display('updated_at', trans('admin.updated_at'));
 
-            $roleModel = config('admin.database.roles_model');
+            $roleModel = AdminConfig::database('roles_model');
             if ($id == $roleModel::ADMINISTRATOR_ID) {
                 $form->disableDeleteButton();
             }
         })->saved(function () {
-            $model = config('admin.database.menu_model');
+            $model = AdminConfig::database('menu_model');
             (new $model())->flushCache();
         });
     }
 
     public function destroy($id)
     {
-        $roleModel = config('admin.database.roles_model');
+        $roleModel = AdminConfig::database('roles_model');
         if (in_array($roleModel::ADMINISTRATOR_ID, Helper::array($id))) {
             Permission::error();
         }

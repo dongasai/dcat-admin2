@@ -3,6 +3,7 @@
 namespace Dcat\Admin\Models;
 
 use Dcat\Admin\Traits\HasDateTimeFormatter;
+use Dcat\Admin\Support\AdminConfig;
 use Dcat\Admin\Traits\ModelTree;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -52,11 +53,11 @@ class Menu extends Model implements Sortable
 
     protected function init()
     {
-        $connection = config('admin.database.connection') ?: config('database.default');
+        $connection = AdminConfig::database('connection') ?: config('database.default');
 
         $this->setConnection($connection);
 
-        $this->setTable(config('admin.database.menu_table'));
+        $this->setTable(AdminConfig::database('menu_table'));
     }
 
     /**
@@ -66,18 +67,18 @@ class Menu extends Model implements Sortable
      */
     public function roles(): BelongsToMany
     {
-        $pivotTable = config('admin.database.role_menu_table');
+        $pivotTable = AdminConfig::database('role_menu_table');
 
-        $relatedModel = config('admin.database.roles_model');
+        $relatedModel = AdminConfig::database('roles_model');
 
         return $this->belongsToMany($relatedModel, $pivotTable, 'menu_id', 'role_id')->withTimestamps();
     }
 
     public function permissions(): BelongsToMany
     {
-        $pivotTable = config('admin.database.permission_menu_table');
+        $pivotTable = AdminConfig::database('permission_menu_table');
 
-        $relatedModel = config('admin.database.permissions_model');
+        $relatedModel = AdminConfig::database('permissions_model');
 
         return $this->belongsToMany($relatedModel, $pivotTable, 'menu_id', 'permission_id')->withTimestamps();
     }
@@ -122,7 +123,7 @@ class Menu extends Model implements Sortable
      */
     public static function withPermission()
     {
-        return config('admin.menu.bind_permission') && config('admin.permission.enable');
+        return AdminConfig::menuBindPermission() && AdminConfig::permissionEnabled();
     }
 
     /**
@@ -132,7 +133,7 @@ class Menu extends Model implements Sortable
      */
     public static function withRole()
     {
-        return (bool) config('admin.permission.enable');
+        return (bool) AdminConfig::permissionEnabled();
     }
 
     /**

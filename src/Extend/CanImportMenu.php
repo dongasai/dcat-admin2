@@ -2,6 +2,7 @@
 
 namespace Dcat\Admin\Extend;
 
+use Dcat\Admin\Support\AdminConfig;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
 
@@ -136,6 +137,6 @@ trait CanImportMenu
 
     protected function getMenuModel()
     {
-        return config('admin.database.menu_model');
+        return AdminConfig::database('menu_model');
     }
 }

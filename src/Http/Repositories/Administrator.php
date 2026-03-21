@@ -4,13 +4,14 @@ namespace Dcat\Admin\Http\Repositories;
 
 use Dcat\Admin\Grid;
 use Dcat\Admin\Repositories\EloquentRepository;
+use Dcat\Admin\Support\AdminConfig;
 use Illuminate\Pagination\AbstractPaginator;
 
 class Administrator extends EloquentRepository
 {
     public function __construct($relations = [])
     {
-        $this->eloquentClass = config('admin.database.users_model');
+        $this->eloquentClass = AdminConfig::database('users_model');
 
         parent::__construct($relations);
     }
@@ -28,7 +29,7 @@ class Administrator extends EloquentRepository
             return $results;
         }
 
-        $roleModel = config('admin.database.roles_model');
+        $roleModel = AdminConfig::database('roles_model');
 
         $roleKeyName = (new $roleModel())->getKeyName();
 

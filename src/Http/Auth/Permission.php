@@ -4,6 +4,7 @@ namespace Dcat\Admin\Http\Auth;
 
 use Dcat\Admin\Admin;
 use Dcat\Admin\Layout\Content;
+use Dcat\Admin\Support\AdminConfig;
 use Dcat\Admin\Support\Helper;
 use Illuminate\Contracts\Support\Arrayable;
 use Symfony\Component\HttpFoundation\Response;
@@ -108,9 +109,9 @@ class Permission
      */
     public static function isAdministrator()
     {
-        $roleModel = config('admin.database.roles_model');
+        $roleModel = AdminConfig::database('roles_model');
 
-        return ! config('admin.permission.enable') || Admin::user()->isRole($roleModel::ADMINISTRATOR);
+        return ! AdminConfig::permissionEnabled() || Admin::user()->isRole($roleModel::ADMINISTRATOR);
     }
 
     /**

@@ -6,6 +6,7 @@ use Dcat\Admin\Admin;
 use Dcat\Admin\Form;
 use Dcat\Admin\Http\Repositories\Permission;
 use Dcat\Admin\Layout\Content;
+use Dcat\Admin\Support\AdminConfig;
 use Dcat\Admin\Tree;
 use Illuminate\Support\Str;
 
@@ -26,7 +27,7 @@ class PermissionController extends AdminController
 
     protected function treeView()
     {
-        $model = config('admin.database.permissions_model');
+        $model = AdminConfig::database('permissions_model');
 
         return new Tree(new $model(), function (Tree $tree) {
             $tree->disableCreateButton();
@@ -57,7 +58,7 @@ class PermissionController extends AdminController
 
                         $method = array_merge($method, explode(',', $me));
                     }
-                    if ($path !== '...' && ! empty(config('admin.route.prefix')) && ! Str::contains($path, '.')) {
+                    if ($path !== '...' && ! empty(AdminConfig::routePrefix()) && ! Str::contains($path, '.')) {
                         $path = trim(admin_base_path($path), '/');
                     }
 
@@ -83,14 +84,14 @@ class PermissionController extends AdminController
     {
         $with = [];
 
-        if ($bindMenu = config('admin.menu.permission_bind_menu', true)) {
+        if ($bindMenu = AdminConfig::menu('permission_bind_menu', true)) {
             $with[] = 'menus';
         }
 
         return Form::make(Permission::with($with), function (Form $form) use ($bindMenu) {
-            $permissionTable = config('admin.database.permissions_table');
-            $connection = config('admin.database.connection');
-            $permissionModel = config('admin.database.permissions_model');
+            $permissionTable = AdminConfig::database('permissions_table');
+            $connection = AdminConfig::database('connection');
+            $permissionModel = AdminConfig::database('permissions_model');
 
             $id = $form->getKey();
 
@@ -120,7 +121,7 @@ class PermissionController extends AdminController
                     ->treeState(false)
                     ->setTitleColumn('title')
                     ->nodes(function () {
-                        $model = config('admin.database.menu_model');
+                        $model = AdminConfig::database('menu_model');
 
                         return (new $model())->allNodes();
                     })
@@ -139,14 +140,14 @@ class PermissionController extends AdminController
             $form->disableViewButton();
             $form->disableViewCheck();
         })->saved(function () {
-            $model = config('admin.database.menu_model');
+            $model = AdminConfig::database('menu_model');
             (new $model())->flushCache();
         });
     }
 
     public function getRoutes()
     {
-        $prefix = (string) config('admin.route.prefix');
+        $prefix = AdminConfig::routePrefix();
 
         $container = collect();
 
@@ -186,7 +187,7 @@ class PermissionController extends AdminController
      */
     protected function getHttpMethodsOptions()
     {
-        $permissionModel = config('admin.database.permissions_model');
+        $permissionModel = AdminConfig::database('permissions_model');
 
         return array_combine($permissionModel::$httpMethods, $permissionModel::$httpMethods);
     }

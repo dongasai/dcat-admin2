@@ -4,6 +4,7 @@ namespace Dcat\Admin\Form\Field;
 
 use Dcat\Admin\Admin;
 use Dcat\Admin\Form\Field;
+use Dcat\Admin\Support\AdminConfig;
 use Illuminate\Support\Str;
 
 class Map extends Field
@@ -27,7 +28,7 @@ class Map extends Field
      */
     public static function requireAssets()
     {
-        $keys = config('admin.map.keys');
+        $keys = AdminConfig::get('map.keys');
 
         switch (static::getUsingMap()) {
             case 'tencent':
@@ -91,7 +92,7 @@ class Map extends Field
 
     protected static function getUsingMap()
     {
-        return config('admin.map.provider') ?: config('admin.map_provider');
+        return AdminConfig::get('map.provider') ?: AdminConfig::get('map_provider');
     }
 
     public function google()

@@ -2,6 +2,7 @@
 
 namespace Dcat\Admin\Http\Actions\Menu;
 
+use Dcat\Admin\Support\AdminConfig;
 use Dcat\Admin\Tree\RowAction;
 
 class Show extends RowAction
@@ -10,7 +11,7 @@ class Show extends RowAction
     {
         $key = $this->getKey();
 
-        $menuModel = config('admin.database.menu_model');
+        $menuModel = AdminConfig::database('menu_model');
         $menu = $menuModel::find($key);
 
         $menu->update(['show' => $menu->show ? 0 : 1]);

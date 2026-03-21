@@ -2,6 +2,7 @@
 
 namespace Dcat\Admin;
 
+use Dcat\Admin\Support\AdminConfig;
 use Dcat\Admin\Support\Helper;
 use Illuminate\Support\Traits\Macroable;
 
@@ -212,7 +213,7 @@ class Color
     public function getName()
     {
         if (! $this->name) {
-            $this->name = config('admin.layout.color') ?: static::DEFAULT_COLOR;
+            $this->name = AdminConfig::layout('color') ?: static::DEFAULT_COLOR;
         }
 
         return $this->name;

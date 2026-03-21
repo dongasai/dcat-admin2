@@ -4,6 +4,7 @@ namespace Dcat\Admin\Show;
 
 use Dcat\Admin\Admin;
 use Dcat\Admin\Show;
+use Dcat\Admin\Support\AdminConfig;
 use Dcat\Admin\Support\Helper;
 use Dcat\Admin\Traits\HasBuilderEvents;
 use Dcat\Admin\Traits\HasVariables;
@@ -227,7 +228,7 @@ class Field implements Renderable
                 } elseif ($server) {
                     $src = rtrim($server, '/').'/'.ltrim($path, '/');
                 } else {
-                    $disk = config('admin.upload.disk');
+                    $disk = AdminConfig::upload('disk');
 
                     if (config("filesystems.disks.{$disk}")) {
                         $src = Storage::disk($disk)->url($path);
@@ -271,7 +272,7 @@ class Field implements Renderable
                 } elseif ($server) {
                     $url = $server.$path;
                 } else {
-                    $storage = Storage::disk(config('admin.upload.disk'));
+                    $storage = Storage::disk(AdminConfig::upload('disk'));
                     if ($storage->exists($path)) {
                         $url = $storage->url($path);
                         $size = ($storage->size($path) / 1000).'KB';

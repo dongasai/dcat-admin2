@@ -2,13 +2,18 @@
 
 namespace Dcat\Admin\Http\Middleware;
 
+use Dcat\Admin\Support\AdminConfig;
+use Dcat\Admin\Support\AdminConfigInitializer;
 use Illuminate\Http\Request;
 
 class Session
 {
     public function handle(Request $request, \Closure $next)
     {
-        if (! config('admin.route.enable_session_middleware') && ! config('admin.multi_app')) {
+        // 初始化配置前缀
+        AdminConfigInitializer::initialize($request);
+
+        if (! AdminConfig::route('enable_session_middleware') && ! AdminConfig::get('multi_app')) {
             return $next($request);
         }
 
@@ -19,7 +24,7 @@ class Session
             $path_prefix = rtrim($path_arr['path'], '/');
         }
 
-        $path = $path_prefix.'/'.trim(config('admin.route.prefix'), '/');
+        $path = $path_prefix.'/'.trim(AdminConfig::routePrefix(), '/');
 
         config(['session.path' => $path]);
 

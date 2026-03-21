@@ -8,6 +8,7 @@ use Dcat\Admin\Grid\Actions\Edit;
 use Dcat\Admin\Grid\Actions\QuickEdit;
 use Dcat\Admin\Grid\Actions\Show;
 use Dcat\Admin\Grid\RowAction;
+use Dcat\Admin\Support\AdminConfig;
 use Dcat\Admin\Support\Helper;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\Support\Renderable;
@@ -243,7 +244,7 @@ class Actions extends AbstractDisplayer
      */
     protected function renderView()
     {
-        $action = config('admin.grid.actions.view') ?: Show::class;
+        $action = AdminConfig::grid('actions.view') ?: Show::class;
         $action = $action::make($this->getViewLabel());
 
         return $this->prepareAction($action);
@@ -266,7 +267,7 @@ class Actions extends AbstractDisplayer
      */
     protected function renderEdit()
     {
-        $action = config('admin.grid.actions.edit') ?: Edit::class;
+        $action = AdminConfig::grid('actions.edit') ?: Edit::class;
         $action = $action::make($this->getEditLabel());
 
         return $this->prepareAction($action);
@@ -287,7 +288,7 @@ class Actions extends AbstractDisplayer
      */
     protected function renderQuickEdit()
     {
-        $action = config('admin.grid.actions.quick_edit') ?: QuickEdit::class;
+        $action = AdminConfig::grid('actions.quick_edit') ?: QuickEdit::class;
         $action = $action::make($this->getQuickEditLabel());
 
         return $this->prepareAction($action);
@@ -310,7 +311,7 @@ class Actions extends AbstractDisplayer
      */
     protected function renderDelete()
     {
-        $action = config('admin.grid.actions.delete') ?: Delete::class;
+        $action = AdminConfig::grid('actions.delete') ?: Delete::class;
         $action = $action::make($this->getDeleteLabel());
 
         return $this->prepareAction($action);

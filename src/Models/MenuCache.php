@@ -3,6 +3,7 @@
 namespace Dcat\Admin\Models;
 
 use Dcat\Admin\Admin;
+use Dcat\Admin\Support\AdminConfig;
 use Illuminate\Support\Facades\Cache;
 
 trait MenuCache
@@ -49,7 +50,7 @@ trait MenuCache
      */
     public function enableCache()
     {
-        return config('admin.menu.cache.enable');
+        return AdminConfig::menu('cache.enable');
     }
 
     /**
@@ -59,6 +60,6 @@ trait MenuCache
      */
     public function getStore()
     {
-        return Cache::store(config('admin.menu.cache.store', 'file'));
+        return Cache::store(AdminConfig::menu('cache.store', 'file'));
     }
 }
