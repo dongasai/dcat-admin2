@@ -9,6 +9,20 @@ use Illuminate\Support\Facades\Lang;
 
 class Menu
 {
+    /**
+     * 外部设置的激活菜单ID.
+     *
+     * @var int|null
+     */
+    protected static $activeId;
+
+    /**
+     * 外部设置的激活菜单路径.
+     *
+     * @var string|null
+     */
+    protected static $activePath;
+
     protected static $helperNodes = [
         [
             'id'        => 1,
@@ -41,6 +55,39 @@ class Menu
     ];
 
     protected $view = 'admin::partials.menu';
+
+    /**
+     * 设置激活的菜单ID.
+     *
+     * @param  int  $id
+     * @return void
+     */
+    public static function setActiveId(int $id)
+    {
+        static::$activeId = $id;
+    }
+
+    /**
+     * 设置激活的菜单路径.
+     *
+     * @param  string  $path
+     * @return void
+     */
+    public static function setActivePath(string $path)
+    {
+        static::$activePath = $path;
+    }
+
+    /**
+     * 重置外部设置的激活状态.
+     *
+     * @return void
+     */
+    public static function resetActive()
+    {
+        static::$activeId = null;
+        static::$activePath = null;
+    }
 
     public function register()
     {
@@ -123,6 +170,49 @@ class Menu
      */
     public function isActive($item, ?string $path = null)
     {
+        // 优先检查外部设置的激活ID
+        if (static::$activeId !== null && isset($item['id'])) {
+            if ($item['id'] == static::$activeId) {
+                return true;
+            }
+            // 如果是父菜单，检查子菜单是否匹配
+            if (!empty($item['children'])) {
+                foreach ($item['children'] as $child) {
+                    if (isset($child['id']) && $child['id'] == static::$activeId) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        // 检查外部设置的激活路径
+        if (static::$activePath !== null) {
+            if (empty($item['children'])) {
+                if (empty($item['uri'])) {
+                    return false;
+                }
+
+                $menuPath = trim($this->getPath($item['uri']), '/');
+                $activePath = trim(static::$activePath, '/');
+
+                return $menuPath === $activePath;
+            }
+
+            // 有子菜单时，检查子菜单是否匹配
+            foreach ($item['children'] as $v) {
+                if (empty($v['uri'])) {
+                    continue;
+                }
+                $childPath = trim($this->getPath($v['uri']), '/');
+                $activePath = trim(static::$activePath, '/');
+
+                if ($childPath === $activePath) {
+                    return true;
+                }
+            }
+        }
+
+        // 默认行为：基于当前请求路径判断
         if (empty($path)) {
             $path = request()->path();
         }
@@ -132,11 +222,15 @@ class Menu
                 return false;
             }
 
-            return trim($this->getPath($item['uri']), '/') == $path;
+            $menuPath = trim($this->getPath($item['uri']), '/');
+
+            // 精确匹配或前缀匹配（支持 /create、/edit 等子路径）
+            return $menuPath == $path || str_starts_with($path, $menuPath . '/');
         }
 
         foreach ($item['children'] as $v) {
-            if ($path == trim($this->getPath($v['uri']), '/')) {
+            $childPath = trim($this->getPath($v['uri']), '/');
+            if ($path == $childPath || ($childPath && str_starts_with($path, $childPath . '/'))) {
                 return true;
             }
             if (! empty($v['children'])) {
